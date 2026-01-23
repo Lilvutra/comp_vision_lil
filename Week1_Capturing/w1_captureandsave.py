@@ -2,7 +2,7 @@ import cv2
 import os
 import numpy as np
 
-class CaptureAndSave(self, bgr_img, filename):
+class CaptureAndSave():
     """
     Class for capturing images from camera and saving them to disk
     """

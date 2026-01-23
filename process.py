@@ -1,7 +1,8 @@
 import time
 import cv2
 import numpy as np
-
+from Week2_Filtering.w2_ex2_gaussian import gaussianFilter
+from Week1_Capturing.w1_captureandsave import CaptureAndSave
 
 class ImageProcessor:
     """
