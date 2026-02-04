@@ -1,8 +1,11 @@
 import time
 import cv2
 import numpy as np
+
+from Week2_Filtering.w2_ex1_grayscale import GrayscaleConverter
 from Week2_Filtering.w2_ex2_gaussian import gaussianFilter
 from Week1_Capturing.w1_captureandsave import CaptureAndSave
+from Week2_Filtering.w2_ex3_medianblur import MedianBlurFilter
 
 class ImageProcessor:
     """
@@ -28,55 +31,44 @@ class ImageProcessor:
             raise ValueError("Input frame is None")
 
         start_time = time.perf_counter()
+        
+        results = {}
+        
+        saveImg = CaptureAndSave()
+        
+        step1_image = saveImg.save_image(bgr_img, "test_capture.bmp")
+        
+        # Convert to grayscale, refering to Week2_Filtering/w2_ex1_grayscale.py
+        
+        grayConverter = GrayscaleConverter()
+        step2_img = grayConverter.convert_to_grayscale(step1_image)
 
-        h, w = bgr_img.shape[:2]
-        side = int(min(h, w) * 0.5)
-        cx, cy = w // 2, h // 2
-        x0 = max(0, cx - side // 2)
-        y0 = max(0, cy - side // 2)
-        crop = bgr_img[y0:y0+side, x0:x0+side].copy()
-
-        processed = cv2.resize(crop, (256, 256))
+        #medianBlur = MedianBlurFilter()
+        gaussianFilterObj = gaussianFilter()
+        
+        #processed_img = medianBlur.apply_median_blur(processed_img, kernel_size=5)
+        step3_img = gaussianFilterObj.apply_gaussian_filter(step2_img, kernel_size=5)   
+        #step3_image = saveImg.save_image(processed_img, "test_grayscale.bmp")
+        #step3_image = saveImg.save_image(processed_img, "test_medianblur.bmp")
+        processed_img = saveImg.save_image(step3_img, "test_gaussianblur.bmp")
 
         process_time_ms = (time.perf_counter() - start_time) * 1000
 
-        return processed, process_time_ms
+        return processed_img, results, process_time_ms
     
-    # WEEK1: Image Processing Filters 
-    def convert_to_grayscale(self, bgr_img):
+    def visualize_results(self, bgr_img, results):
         """
-        Convert BGR image to Grayscale
-        
+        Visualize the results of image processing
+       
         Args:
             bgr_img: Input image in BGR format
-            
+            results: Dictionary containing processing results
         Returns:
-            Grayscale image
+            Annotated image
         """
-        start = time.perf_counter()
+        # TODO: Implement visualization logic
+        pass
 
-        gray_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2GRAY)
-        process_time = (time.perf_counter() - start) * 1000
-
-        return gray_img, process_time
-    def gaussian_filter(self, bgr_img, kernel_size=5):
-        """
-        Apply Gaussian filter to the image
-        
-        Args:
-            bgr_img: Input image in BGR format
-            kernel_size: Size of the Gaussian kernel
-            
-        Returns:
-            Filtered image
-        """
-        start = time.perf_counter()
-
-        filtered_img = cv2.GaussianBlur(bgr_img, (kernel_size, kernel_size), 0)
-        process_time = (time.perf_counter() - start) * 1000
-
-        return filtered_img, process_time
-    
     def preprocess(self, bgr_img):
         """
         Preprocess image (e.g., resize, normalize)

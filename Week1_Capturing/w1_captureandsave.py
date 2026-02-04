@@ -27,15 +27,18 @@ class CaptureAndSave():
         
         try:
             # Ensure the directory exists
-            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            save_dir = "Captured_Images"
+            if not os.path.exists(save_dir):
+                os.makedirs(save_dir)
             # Save the image
-            cv2.imwrite(filename, bgr_img)
-            print(f"Image saved to {filename}")
+            save_path = os.path.join(save_dir, filename)
+            cv2.imwrite(save_path, bgr_img)
+            print(f"Image saved to {save_path}")
             return True
         
         except Exception as e:
             print(f"Failed to save image: {e}")
             return False
-    
+   
     
    

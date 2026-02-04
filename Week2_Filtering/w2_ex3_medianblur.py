@@ -1,21 +1,21 @@
-import cv2 
+import cv2
 import numpy as np
 
-class gaussianFilter:
+class MedianBlurFilter:
     """
-    Class for applying Gaussian filter to BGR images
+    Class for applying Median Blur filter to BGR images
     """
     def __init__(self):
-        """Initialize Gaussian Filter"""
+        """Initialize Median Blur Filter"""
         pass
-    
-    def apply_gaussian_filter(self, bgr_img, kernel_size=5):
+  
+    def apply_median_blur(self, bgr_img, kernel_size=5):
         """
-        Apply Gaussian filter to the BGR image
-       
+        Apply Median Blur filter to the BGR image
+        
         Args:
             bgr_img: Input image in BGR format (numpy array)
-            kernel_size: Size of the Gaussian kernel (must be odd)
+            kernel_size: Size of the median kernel (must be odd)
             
         Returns:
             Filtered image
@@ -25,25 +25,5 @@ class gaussianFilter:
         if kernel_size % 2 == 0:
             raise ValueError("Kernel size must be an odd number")
         
-        filtered_img = cv2.GaussianBlur(bgr_img, (kernel_size, kernel_size), 0)
+        filtered_img = cv2.medianBlur(bgr_img, kernel_size)
         return filtered_img
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
