@@ -24,7 +24,7 @@ class gaussianFilter:
             raise ValueError("Input image is invalid")
         if kernel_size % 2 == 0:
             raise ValueError("Kernel size must be an odd number")
-        
+        #sigma = 0 means that sigma is calculated based on kernel size
         filtered_img = cv2.GaussianBlur(bgr_img, (kernel_size, kernel_size), 0)
         return filtered_img
 

@@ -109,6 +109,10 @@ def capture():
         processor = ImageProcessor()
         processed, results, process_time_ms = processor.process_frame(frame)
         
+        if processed is None:
+            return jsonify({'ok': False, 'error': 'processing_failed'}), 500
+        
+       
         # Convert processed image to base64
         ret2, jpg2 = cv2.imencode('.jpg', processed, [int(cv2.IMWRITE_JPEG_QUALITY), 90])
         if not ret2:
